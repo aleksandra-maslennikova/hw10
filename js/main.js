@@ -6,7 +6,7 @@
  *
  * */
 
-let $ = function (str) {
+/*let $ = function (str) {
   let tag = str;
   let newTag = `<${str}></${str}>`;
   return newTag
@@ -94,8 +94,43 @@ let ezjQuery = {
   }
 }
 var helloList = ezjQuery.add('body').add('div').add('ul').add('li', 'Hello').render();
-var bodyDiv = ezjQuery.add('body').add('div');
+document.write(helloList) 
 
 
-
-
+// @SUPER
+/*
+ * Переименуйте объект ezjQuery в $. Создание перевого метода должено быть без метода
+ *
+ * $('body').add('li', 'hi').render() // <body><li>hi</li></body>
+ *
+ *
+ *
+ * */
+ function $(str) {
+  return {
+  openTag : `<${str}>`,
+  closeTag:`</${str}>`,
+  add(str, value) {
+    console.log(this.createTag(str, value));
+    return this
+  },
+  createTag(str, value) {
+    this.openTag = this.openTag + `<${str}>`;
+    this.closeTag = `</${str}>` + this.closeTag;
+    if (!value) {
+      this.newTag = this.openTag + this.closeTag;
+    } else {
+      this.newTag = this.openTag + value + this.closeTag;
+    }
+    return this.newTag
+  },
+  render() {
+    let newString = this.newTag;
+    this.newTag = '';
+    this.openTag = '';
+    this.closeTag = '';
+    return newString
+  }
+}
+ }
+$('body').add('li', 'hi').render()
